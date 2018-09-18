@@ -11,16 +11,15 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - eval $(aws ecr get-login --no-include-email | sed 's|https://||')
+      - $(aws ecr get-login --no-include-email --region eu-central-1)
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$TAG
+      - docker build -t ndla .
+      - docker tag ndla:latest 028339193837.dkr.ecr.eu-central-1.amazonaws.com/ndla:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$TAG
+      - docker push 028339193837.dkr.ecr.eu-central-1.amazonaws.com/ndla:latest
