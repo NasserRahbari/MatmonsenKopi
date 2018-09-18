@@ -1,0 +1,7 @@
+version: 0.0
+os: linux
+hooks:
+  ApplicationStart:
+    - location: scripts/run_docker.sh
+      timeout: 10
+      runas: root

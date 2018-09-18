@@ -11,6 +11,13 @@ phases:
       - REPOSITORY_URI=028339193837.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Variables
+      - echo Region $REGION
+      - echo REPOSITORY_NAME $REPOSITORY_NAME
+      - echo REPOSITORY_URI $REPOSITORY_URI
+      - echo COMMIT_HASH $COMMIT_HASH
+      - echo IMAGE_TAG $IMAGE_TAG
+
   build:
     commands:
       - echo Build started on `date`
@@ -24,5 +31,6 @@ phases:
       #- docker push $REPOSITORY_NAME:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - printf '[{"name":"ndla-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
