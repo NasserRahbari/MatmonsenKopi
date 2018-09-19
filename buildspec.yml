@@ -29,6 +29,7 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       #- docker push $REPOSITORY_NAME:latest
+      - echo $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - printf '[{"name":"ndla-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
       - echo imageDefinitions.json
