@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using ConceptsMicroservice.Models;
 using Newtonsoft.Json;
 
@@ -9,31 +10,19 @@ namespace ConceptsMicroservice.Utilities
     public class FileDB : IFileDB
     {
 
-        public string DbFilePath { get; set; } = @"Resources/Files/begrep_dump_as_json.csv";
+        public string URL { get; set; } =
+            "https://s3.eu-central-1.amazonaws.com/sindre-capgemini-static-resources/begrep_dump_as_json.csv";
         public List<ConceptItem> ReadFromFile()
         {
             var returnValueOnError = new List<ConceptItem>();
 
             try
             {
-                using (var reader = new StreamReader(DbFilePath))
+                using (var client = new HttpClient())
                 {
-                    string conceptsObjectsJSON = null;
-
-                    try
-                    {
-                        conceptsObjectsJSON = reader.ReadToEnd();
-                    }
-                    catch (Exception)
-                    {
-                        return returnValueOnError;
-                    }
-
-                    return string.IsNullOrWhiteSpace(conceptsObjectsJSON)
-                        ? returnValueOnError
-                        : JsonConvert.DeserializeObject<List<ConceptItem>>(conceptsObjectsJSON);
+                    var stringResult = client.GetStringAsync(URL).Result;
+                    return JsonConvert.DeserializeObject<List<ConceptItem>>(stringResult);
                 }
-
             }
             catch (Exception)
             {

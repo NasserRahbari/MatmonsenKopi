@@ -5,7 +5,7 @@ namespace ConceptsMicroservice.Utilities
 {
     public interface IFileDB
     {
-        string DbFilePath { get; set; }
+        string URL { get; set; }
         List<ConceptItem> ReadFromFile();
     }
 }
