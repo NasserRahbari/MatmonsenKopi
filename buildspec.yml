@@ -33,4 +33,5 @@ phases:
       - printf '[{"name":"ndla-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - echo imagedefinitions.json
 artifacts:
-    files: imagedefinitions.json
+    files:
+    - '**/*'
