@@ -21,11 +21,5 @@ namespace ConceptsMicroservice.UnitTests
 
             Assert.Empty(concepts);
         }
-
-        [Fact]
-        public void Fail_This_Test()
-        {
-            Assert.False(true);
-        }
     }
 }

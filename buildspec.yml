@@ -1,14 +1,21 @@
 version: 0.2
 
 phases:
+  pre_install:
+    commands:
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - TAG=${COMMIT_HASH:=latest}
+      - TEST_FILE=test_result.xml
+      - PROJECT_NAME=ConceptMicroservice
   install:
     commands:
-      - cd ConceptMicroservice
-      - cd ConceptMicroservie.UnitTests
+      - cd $PROJECT_NAME
+      - cd $PROJECT_NAME.UnitTests
       - dotnet restore
   build:
     commands:
-      - dotnet test
+      - dotnet test -logger "trx;LogFileName=$TEST_FILE"
 artifacts:
     files:
-    - **/**
+      - 'TestResults/$TEST_FILE'
+    name: test_result.$TAG
