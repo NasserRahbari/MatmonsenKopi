@@ -1,14 +1,12 @@
 version: 0.2
 
 phases:
-  pre_install:
+  install:
     commands:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - TAG=${COMMIT_HASH:=latest}
       - TEST_FILE=test_result.xml
       - PROJECT_NAME=ConceptMicroservice
-  install:
-    commands:
       - cd $PROJECT_NAME
       - cd $PROJECT_NAME.UnitTests
       - dotnet restore
