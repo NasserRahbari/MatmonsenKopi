@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - cd ConceptMicroservice
+      - cd ConceptMicroservie.UnitTests
+      - dotnet restore
+  build:
+    commands:
+      - dotnet test
+artifacts:
+    files:
+    - **/**
