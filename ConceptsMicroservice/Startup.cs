@@ -29,6 +29,20 @@ namespace ConceptsMicroservice
             services.AddDbContext<ConceptsContext>(opt =>
                 opt.UseInMemoryDatabase("ConceptsList"));
             services.AddSwagger();
+            services.AddCors(
+                options =>
+                {
+                    options.AddPolicy("AllowAll",
+                        builder =>
+                        {
+                            builder
+                                .AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .AllowCredentials();
+                        });
+                }
+                );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -44,6 +58,9 @@ namespace ConceptsMicroservice
             app.UseStaticFiles();
 
             ConfigureSwagger(app);
+
+            app.UseCors("AllowAll");
+
             app.UseMvc();
         }
 
