@@ -6,7 +6,7 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - TAG=${COMMIT_HASH:=latest}
       - TEST_FILE=test_result.xml
-      - PROJECT_NAME=ConceptMicroservice
+      - PROJECT_NAME=ConceptsMicroservice
       - echo PWD
       - ls -l
       - cd $PROJECT_NAME.UnitTests
