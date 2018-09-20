@@ -7,7 +7,7 @@ phases:
       - TAG=${COMMIT_HASH:=latest}
       - TEST_FILE=test_result.xml
       - PROJECT_NAME=ConceptMicroservice
-      - cd $PROJECT_NAME
+      - echo $PWD
       - cd $PROJECT_NAME.UnitTests
       - dotnet restore
   build:
