@@ -10,26 +10,34 @@ using NSwag.SwaggerGeneration.Processors;
 using ConceptsMicroservice.Repositories;
 using ConceptsMicroservice.Services;
 using ConceptsMicroservice.Utilities;
+using System;
 
 namespace ConceptsMicroservice
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _config;
+
+        private string GetDatabaseConncetion()
         {
-            Configuration = configuration;
+            return _env.IsDevelopment()
+                ? _config.GetConnectionString("ConceptsDatabase")
+                : Environment.GetEnvironmentVariable("CONNECTION_STRING");
         }
 
-        public IConfiguration Configuration { get; }
+        public Startup(IHostingEnvironment env, IConfiguration config)
+        {
+            _env = env;
+            _config = config;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             AddDependencies(services);
             services.AddEntityFrameworkNpgsql()
-                .AddDbContext<ConceptsContext>(opt =>
-                    opt.UseNpgsql(Configuration.GetConnectionString("ConceptsDatabase")
-                    ));
+                .AddDbContext<ConceptsContext>(opt => opt.UseNpgsql(GetDatabaseConncetion()));
             services.AddSwagger();
             services.AddCors(
                 options =>
