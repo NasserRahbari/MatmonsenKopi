@@ -26,8 +26,10 @@ namespace ConceptsMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             AddDependencies(services);
-            services.AddDbContext<ConceptsContext>(opt =>
-                opt.UseInMemoryDatabase("ConceptsList"));
+            services.AddEntityFrameworkNpgsql()
+                .AddDbContext<ConceptsContext>(opt =>
+                    opt.UseNpgsql(Configuration.GetConnectionString("ConceptsDatabase")
+                    ));
             services.AddSwagger();
             services.AddCors(
                 options =>
