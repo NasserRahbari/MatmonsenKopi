@@ -36,7 +36,8 @@ namespace ConceptsMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             AddDependencies(services);
-            services.AddEntityFrameworkNpgsql()
+            services
+                .AddEntityFrameworkNpgsql()
                 .AddDbContext<ConceptsContext>(opt => opt.UseNpgsql(GetDatabaseConncetion()));
             services.AddSwagger();
             services.AddCors(
@@ -103,6 +104,8 @@ namespace ConceptsMicroservice
         {
             services.AddScoped<IConceptService, ConceptService>();
             services.AddScoped<IConceptRepository, ConceptRepositoryFromFileDatabase>();
+            services.AddScoped<IMetadataService, MetadataService>();
+            services.AddScoped<IMetadataRepository, MetadataRepository>();
             services.AddScoped<IFileDB, FileDB>();
         }
     }
