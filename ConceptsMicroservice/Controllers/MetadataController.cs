@@ -22,5 +22,14 @@ namespace ConceptsMicroservice.Controllers
             var result = _service.GetMetadataItems();
             return result;
         }
+
+        [HttpGet]
+        [Route("autocomplete")]
+        public ActionResult<List<Metadata>> GetMetaForAutocomplete([FromQuery] string category, [FromQuery] string term)
+        {
+            // Spør etter feks ?category=nn&term=ny
+            // Vil da finne alle metadata som er av category language og contains "ny"
+            return _service.SearchForMetadataInCategory(category, term);
+        }
     }
 }

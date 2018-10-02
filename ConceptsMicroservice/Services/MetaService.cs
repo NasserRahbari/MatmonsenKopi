@@ -20,5 +20,10 @@ namespace ConceptsMicroservice.Services
         {
             return _metadataRepository.GetAll();
         }
+
+        public List<Metadata> SearchForMetadataInCategory(string category, string term)
+        {
+            return _metadataRepository.SearchForMetadataInCategory(category, term);
+        }
     }
 }

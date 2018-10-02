@@ -6,6 +6,6 @@ namespace ConceptsMicroservice.Repositories
     public interface IMetadataRepository
     {
         List<Metadata> GetAll();
-
+        List<Metadata> SearchForMetadataInCategory(string category, string term);
     }
 }
