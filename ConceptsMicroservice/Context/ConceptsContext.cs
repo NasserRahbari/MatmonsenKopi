@@ -5,10 +5,10 @@ namespace ConceptsMicroservice.Models
     public class ConceptsContext : DbContext
     {
         public ConceptsContext(DbContextOptions<ConceptsContext> options)
-            : base(options)
-        {
-        }
+        : base(options)
+        { }
 
-        public DbSet<ConceptItem> ConceptsItems { get; set; }
+    public DbSet<ConceptItem> Concepts { get; set; }
+        public DbSet<Metadata> Metadata { get; set; }
     }
 }

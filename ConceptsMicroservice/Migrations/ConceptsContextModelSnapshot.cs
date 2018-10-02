@@ -15,7 +15,7 @@ namespace ConceptsMicroservice.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("ConceptsMicroservice.Models.ConceptItem", b =>
@@ -39,7 +39,23 @@ namespace ConceptsMicroservice.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConceptsItems");
+                    b.ToTable("Concepts");
+                });
+
+            modelBuilder.Entity("ConceptsMicroservice.Models.Metadata", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Metadata");
                 });
 #pragma warning restore 612, 618
         }
