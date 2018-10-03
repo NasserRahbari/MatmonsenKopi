@@ -19,7 +19,7 @@ namespace ConceptsMicroservice.Repositories
             var concepts = _fileDB.ReadFromFile();
             if (searchFields == null)
                 return concepts;
-
+            /*
             if (!string.IsNullOrWhiteSpace(searchFields.Title))
                 concepts = concepts
                     .Where(i => i.Title != null)
@@ -31,7 +31,7 @@ namespace ConceptsMicroservice.Repositories
                     .Where(i => i.Language != null)
                     .Where(i => i.Language.ToLower().Contains(searchFields.Language.ToLower()))
                     .ToList();
-
+                    */
             return concepts;
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace ConceptsMicroservice.Models
+﻿using System.Collections.Generic;
+
+namespace ConceptsMicroservice.Models
 {
     public class ConceptItem
     {
@@ -8,8 +10,10 @@
         public long ExternalId { get; set; }
         public string Created { get; set; }
         public string Updated { get; set; }
-        public string Language { get; set; }
-        public string SupportedLanguages { get; set; }
+        public string Author { get; set; }
+        public PublishingStatus StatusId { get; set; }
+        public ICollection<Metadata> Metadatas { get; set; }
+
 
     }
 }

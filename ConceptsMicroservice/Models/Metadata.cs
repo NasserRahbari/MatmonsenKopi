@@ -1,4 +1,6 @@
-﻿namespace ConceptsMicroservice.Models
+﻿using System.Collections.Generic;
+
+namespace ConceptsMicroservice.Models
 {
     public class Metadata
     {
@@ -6,5 +8,6 @@
         public string Code { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
+        public ICollection<ConceptItem> Concepts { get; set; }
     }
 }
