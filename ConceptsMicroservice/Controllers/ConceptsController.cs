@@ -18,9 +18,9 @@ namespace ConceptsMicroservice.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<ConceptItem>> SearchForConcepts([FromQuery]Dictionary<string, string> dict = null)
+        public ActionResult<List<Concept>> SearchForConcepts([FromQuery]ConceptSearchFields query = null)
         {
-            return _service.SearchForConcepts(null);
+            return _service.SearchForConcepts(query);
         }
     }
 }

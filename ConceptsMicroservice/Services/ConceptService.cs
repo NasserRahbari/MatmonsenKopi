@@ -13,7 +13,7 @@ namespace ConceptsMicroservice.Services
             _conceptRepository = repo;
         }
 
-        public List<ConceptItem> SearchForConcepts(ConceptSearchFields searchFields)
+        public List<Concept> SearchForConcepts(ConceptSearchFields searchFields)
         {
             return _conceptRepository.SearchForConcepts(searchFields);
         }

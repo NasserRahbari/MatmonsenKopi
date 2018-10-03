@@ -8,6 +8,7 @@ namespace ConceptsMicroservice.Models
         public string Code { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
-        public ICollection<ConceptItem> Concepts { get; set; }
+        public Category Category { get; set; }
+        public ICollection<ConceptMeta> Concepts { get; set; }
     }
 }

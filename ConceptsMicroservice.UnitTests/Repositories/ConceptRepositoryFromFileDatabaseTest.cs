@@ -14,17 +14,17 @@ namespace ConceptsMicroservice.UnitTests.Repositories
 
         private IFileDB _db;
         private readonly IConceptRepository _repository;
-        private readonly List<ConceptItem> _conceptsInDatabase;
+        private readonly List<Concept> _conceptsInDatabase;
 
         public ConceptRepositoryFromFileDatabaseTest()
         {
             _db = A.Fake<IFileDB>();
             _repository = new ConceptRepositoryFromFileDatabase(_db);
-            _conceptsInDatabase = new List<ConceptItem>
+            _conceptsInDatabase = new List<Concept>
             {
-                new ConceptItem{Title = "TestTitle"},
-                new ConceptItem{Title = "Another test"},
-                new ConceptItem{Title = "I am a concept"},
+                new Concept{Title = "TestTitle"},
+                new Concept{Title = "Another test"},
+                new Concept{Title = "I am a concept"},
             };
 
             A.CallTo(() => _db.ReadFromFile()).Returns(_conceptsInDatabase);

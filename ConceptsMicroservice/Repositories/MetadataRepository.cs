@@ -17,9 +17,15 @@ namespace ConceptsMicroservice.Repositories
             return _context.Metadata.ToList<Metadata>();
         }
 
-        public List<Metadata> SearchForMetadataInCategory(string category, string term)
+        public List<Metadata> SearchForMetadataInCategory(string categoryName, string term)
         {
-            return new List<Metadata>();
+            var category = _context.Categories.FirstOrDefault(x => x.Name == categoryName);
+            if (category == null)
+                return new List<Metadata>();
+
+            return _context.Metadata
+                .Where(x => x.CategoryId == category.Id && x.Code.Contains(term))
+                .ToList();
         }
     }
 }

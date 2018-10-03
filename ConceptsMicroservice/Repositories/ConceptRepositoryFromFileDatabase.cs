@@ -14,7 +14,7 @@ namespace ConceptsMicroservice.Repositories
             _fileDB = db;
         }
 
-        public List<ConceptItem> SearchForConcepts(ConceptSearchFields searchFields)
+        public List<Concept> SearchForConcepts(ConceptSearchFields searchFields)
         {
             var concepts = _fileDB.ReadFromFile();
             if (searchFields == null)

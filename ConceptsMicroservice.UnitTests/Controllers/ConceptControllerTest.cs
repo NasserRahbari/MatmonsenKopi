@@ -12,7 +12,7 @@ namespace ConceptsMicroservice.UnitTests.Controllers
     {
         private readonly IConceptService _service;
         private readonly ConceptController _controller;
-        private readonly List<ConceptItem> _concepts;
+        private readonly List<Concept> _concepts;
         
 
         public ConceptControllerTest()
@@ -20,17 +20,17 @@ namespace ConceptsMicroservice.UnitTests.Controllers
             _service = A.Fake<IConceptService>();
             _controller = new ConceptController(_service);
 
-            _concepts = new List<ConceptItem>
+            _concepts = new List<Concept>
             {
-                new ConceptItem{Title = "TestTitle"},
-                new ConceptItem{Title = "Another test"},
+                new Concept{Title = "TestTitle"},
+                new Concept{Title = "Another test"},
             };
         }
 
         [Fact]
         public void SearchForConcepts_Returns_Empty_List_When_Service_Does_Not_Find_any_Concepts()
         {
-            A.CallTo(() => _service.SearchForConcepts(null)).Returns(new List<ConceptItem>());
+            A.CallTo(() => _service.SearchForConcepts(null)).Returns(new List<Concept>());
 
             var result = _controller.SearchForConcepts();
             Assert.Empty(result.Value);
