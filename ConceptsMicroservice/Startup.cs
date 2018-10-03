@@ -106,6 +106,8 @@ namespace ConceptsMicroservice
             services.AddScoped<IConceptRepository, ConceptRepositoryFromFileDatabase>();
             services.AddScoped<IMetadataService, MetadataService>();
             services.AddScoped<IMetadataRepository, MetadataRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFileDB, FileDB>();
         }
     }

@@ -8,7 +8,8 @@ namespace ConceptsMicroservice.Models
         : base(options)
         { }
 
-    public DbSet<ConceptItem> Concepts { get; set; }
+        public DbSet<ConceptItem> Concepts { get; set; }
         public DbSet<Metadata> Metadata { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }
