@@ -11,6 +11,7 @@ using ConceptsMicroservice.Repositories;
 using ConceptsMicroservice.Services;
 using ConceptsMicroservice.Utilities;
 using System;
+using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -38,6 +39,7 @@ namespace ConceptsMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             AddDependencies(services);
+            services.AddAutoMapper();
             services
                 .AddEntityFrameworkNpgsql()
                 .AddDbContext<ConceptsContext>(opt => opt.UseNpgsql(GetDatabaseConncetion()));
