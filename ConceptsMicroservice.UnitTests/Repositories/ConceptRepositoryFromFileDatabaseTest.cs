@@ -15,11 +15,12 @@ namespace ConceptsMicroservice.UnitTests.Repositories
         private IFileDB _db;
         private readonly IConceptRepository _repository;
         private readonly List<Concept> _conceptsInDatabase;
+        private ConceptsContext conceptsContext;
 
         public ConceptRepositoryFromFileDatabaseTest()
         {
             _db = A.Fake<IFileDB>();
-            _repository = new ConceptRepositoryFromFileDatabase(_db);
+            _repository = new ConceptRepositoryFromFileDatabase(conceptsContext); // _db);
             _conceptsInDatabase = new List<Concept>
             {
                 new Concept{Title = "TestTitle"},
@@ -27,7 +28,7 @@ namespace ConceptsMicroservice.UnitTests.Repositories
                 new Concept{Title = "I am a concept"},
             };
 
-            A.CallTo(() => _db.ReadFromFile()).Returns(_conceptsInDatabase);
+            //A.CallTo(() => _db.ReadFromFile()).Returns(_conceptsInDatabase);
         }
 
         [Fact]
