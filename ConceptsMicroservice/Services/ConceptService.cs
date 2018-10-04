@@ -21,5 +21,10 @@ namespace ConceptsMicroservice.Services
         {
             return _conceptRepository.SearchForConcepts(searchFields);
         }
+
+        public Concept GetConceptById(int id)
+        {
+            return _conceptRepository.GetById(id);
+        }
     }
 }

@@ -32,6 +32,13 @@ namespace ConceptsMicroservice.Repositories
             return concepts;
         }
 
+        public Concept GetById(int id)
+        {
+            return _context.Concepts
+                .Include(x => x.Metadata)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         private string CreateIN_String(ConceptSearchFields searchFields)
         {
             string result = "";

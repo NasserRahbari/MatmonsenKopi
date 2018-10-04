@@ -22,5 +22,11 @@ namespace ConceptsMicroservice.Controllers
         {
             return _service.SearchForConcepts(query);
         }
+
+        [HttpGet("{id}", Name = "GetConceptById")]
+        public ActionResult<Concept> GetById(int id)
+        {
+            return _service.GetConceptById(id);
+        }
     }
 }
