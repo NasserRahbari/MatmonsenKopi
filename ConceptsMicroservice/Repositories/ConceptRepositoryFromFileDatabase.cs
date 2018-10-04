@@ -25,7 +25,8 @@ namespace ConceptsMicroservice.Repositories
                               " WHERE c.\"Id\" in (SELECT map.\"ConceptId\" FROM" +
                               " \"ConceptMetas\" map WHERE map.\"MetadataId\" in " +
                               "( SELECT m.\"Id\" FROM \"Metadata\" m WHERE m.\"Code\" " +
-                              "IN" + CreateIN_String (searchFields) + " )); ";
+                              "IN" + CreateIN_String (searchFields) + " )) " + 
+                              "AND c.\"Title\" LIKE '%" + searchFields.Title + "%'";
             var concepts = _context.Concepts.FromSql(sqlQuery).ToList<Concept>();
   
             return concepts;
@@ -34,8 +35,7 @@ namespace ConceptsMicroservice.Repositories
         private string CreateIN_String(ConceptSearchFields searchFields)
         {
             string result = "";
-            result = " ('" + searchFields.Language + "', '" + searchFields.Subject
-                     + "', '" + searchFields.Title + "')";
+            result = " ('" + searchFields.Language + "', '" + searchFields.Subject + "')"; //", '" + searchFields.Title + "')";
             return result;
         }
     }
