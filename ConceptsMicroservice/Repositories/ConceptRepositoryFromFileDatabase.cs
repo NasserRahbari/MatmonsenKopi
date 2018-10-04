@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Utilities;
@@ -18,15 +19,22 @@ namespace ConceptsMicroservice.Repositories
 
         public List<Concept> SearchForConcepts(ConceptSearchFields searchFields)
         {
+            string metaIn = CreateIN_String(searchFields);
+            string whenMetaExits = "";
+            if (!String.IsNullOrEmpty(metaIn))
+            {
+                whenMetaExits = "c.\"Id\" in (SELECT map.\"ConceptId\" FROM" +
+                                " \"ConceptMetas\" map WHERE map.\"MetadataId\" in " +
+                                "( SELECT m.\"Id\" FROM \"Metadata\" m WHERE m.\"Code\" " +
+                                "IN" + metaIn + " )) AND";
+            }
             string sqlQuery = "SELECT c.\"Id\", c.\"Title\", c.\"Content\", " +
                               "c.\"ExternalId\", c.\"Created\", c.\"Updated\"," +
                               " c.\"Author\", c.\"StatusId\" " +
                               "FROM \"Concepts\" c" +
-                              " WHERE c.\"Id\" in (SELECT map.\"ConceptId\" FROM" +
-                              " \"ConceptMetas\" map WHERE map.\"MetadataId\" in " +
-                              "( SELECT m.\"Id\" FROM \"Metadata\" m WHERE m.\"Code\" " +
-                              "IN" + CreateIN_String (searchFields) + " )) " + 
-                              "OR LOWER(c.\"Title\") LIKE LOWER( '%" + searchFields.Title + "%')";
+                              " WHERE " +
+                               whenMetaExits +
+                              " LOWER(c.\"Title\") LIKE LOWER( '%" + searchFields.Title + "%')";
             var concepts = _context.Concepts
                 .Include(collection => collection.Metadata)
                 .ThenInclude(collectionItem => collectionItem.Metadata)
@@ -44,8 +52,17 @@ namespace ConceptsMicroservice.Repositories
 
         private string CreateIN_String(ConceptSearchFields searchFields)
         {
-            string result = "";
-            result = " ('" + searchFields.Language + "', '" + searchFields.Subject + "')"; //", '" + searchFields.Title + "')";
+            string result;
+            if (string.IsNullOrEmpty(searchFields.Language) && string.IsNullOrEmpty(searchFields.Subject))
+            {
+                result = "";
+            }
+            else
+            {
+                result = " ('" + searchFields.Language + "', '" + searchFields.Subject +
+                         "')";
+            }
+
             return result;
         }
     }

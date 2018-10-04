@@ -35,7 +35,7 @@ namespace ConceptsMicroservice.UnitTests.Repositories
         public void SearchForConcepts_Returns_All_Concepts_If_No_SearchFields_Is_Specified()
         {
             var searchResult = _repository.SearchForConcepts(new ConceptSearchFields());
-            
+
             Assert.Equal(_conceptsInDatabase.Count, searchResult.Count);
         }
 
