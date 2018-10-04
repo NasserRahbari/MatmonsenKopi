@@ -12,16 +12,16 @@ namespace ConceptsMicroservice.Utilities
 
         public string URL { get; set; } =
             "https://s3.eu-central-1.amazonaws.com/sindre-capgemini-static-resources/begrep_dump_as_json.csv";
-        public List<ConceptItem> ReadFromFile()
+        public List<Concept> ReadFromFile()
         {
-            var returnValueOnError = new List<ConceptItem>();
+            var returnValueOnError = new List<Concept>();
 
             try
             {
                 using (var client = new HttpClient())
                 {
                     var stringResult = client.GetStringAsync(URL).Result;
-                    return JsonConvert.DeserializeObject<List<ConceptItem>>(stringResult);
+                    return JsonConvert.DeserializeObject<List<Concept>>(stringResult);
                 }
             }
             catch (Exception)
