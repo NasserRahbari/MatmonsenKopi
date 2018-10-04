@@ -27,7 +27,10 @@ namespace ConceptsMicroservice.Repositories
                               "( SELECT m.\"Id\" FROM \"Metadata\" m WHERE m.\"Code\" " +
                               "IN" + CreateIN_String (searchFields) + " )) " + 
                               "OR LOWER(c.\"Title\") LIKE LOWER( '%" + searchFields.Title + "%')";
-            var concepts = _context.Concepts.FromSql(sqlQuery).ToList<Concept>();
+            var concepts = _context.Concepts
+                .Include(collection => collection.Metadata)
+                .ThenInclude(collectionItem => collectionItem.Metadata)
+                .FromSql(sqlQuery).ToList();
   
             return concepts;
         }
