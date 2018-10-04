@@ -26,6 +26,11 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_NAME $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
       - echo imageDefinitions.json
+      - echo Installing dependencies
+      - cd $PROJECT
+      - dotnet restore
+      - echo Update database
+      - dotnet ef database update
 artifacts:
     files:
     - imageDefinitions.json
