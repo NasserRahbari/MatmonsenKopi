@@ -47,6 +47,7 @@ namespace ConceptsMicroservice.Repositories
         {
             return _context.Concepts
                 .Include(x => x.Metadata)
+                .ThenInclude(collectionItem => collectionItem.Metadata)
                 .FirstOrDefault(x => x.Id == id);
         }
 
