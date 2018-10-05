@@ -7,6 +7,7 @@ namespace ConceptsMicroservice.Models
     {
         public ConceptsContext(DbContextOptions<ConceptsContext> options): base(options){ }
 
+        public DbSet<MetaData> MetaJson { get; set; }
         public DbSet<Concept> Concepts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ConceptMeta> ConceptMetas { get; set; }
@@ -16,7 +17,8 @@ namespace ConceptsMicroservice.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<MetaData>().Property(d => d.Value).HasColumnType("json");
+            /*
             #region Map join tabled
             modelBuilder.Entity<ConceptMeta>()
                 .HasKey(bc => new { bc.ConceptId, bc.MetadataId });
@@ -56,7 +58,7 @@ namespace ConceptsMicroservice.Models
                 modelBuilder.Entity<ConceptMeta>().HasData(status);
             }
             #endregion
-
+            */
         }
     }
 }

@@ -36,8 +36,8 @@ namespace ConceptsMicroservice.Repositories
                                whenMetaExits +
                               " LOWER(c.\"Title\") LIKE LOWER( '%" + searchFields.Title + "%')";
             var concepts = _context.Concepts
-                .Include(collection => collection.Metadata)
-                .ThenInclude(collectionItem => collectionItem.Metadata)
+                //.Include(collection => collection.Metadata)
+                //.ThenInclude(collectionItem => collectionItem.Metadata)
                 .FromSql(sqlQuery).ToList();
   
             return concepts;
@@ -45,10 +45,12 @@ namespace ConceptsMicroservice.Repositories
 
         public Concept GetById(int id)
         {
-            return _context.Concepts
+            var concept  = _context.Concepts
                 .Include(x => x.Metadata)
-                .ThenInclude(collectionItem => collectionItem.Metadata)
                 .FirstOrDefault(x => x.Id == id);
+
+
+            return concept;
         }
 
         private string CreateIN_String(ConceptSearchFields searchFields)

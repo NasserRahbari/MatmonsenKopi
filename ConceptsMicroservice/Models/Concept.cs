@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace ConceptsMicroservice.Models
 {
@@ -13,7 +14,8 @@ namespace ConceptsMicroservice.Models
         public string Author { get; set; }
         public PublishingStatus Status { get; set; }
         public int StatusId { get; set; }
-        public ICollection<ConceptMeta> Metadata { get; set; }
+        public int MetadataId { get; set; }
+        public MetaData Metadata { get; set; } = null;
 
 
     }

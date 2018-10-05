@@ -28,11 +28,11 @@ namespace ConceptsMicroservice.Controllers
         }
 
         [HttpGet("{id}", Name = "GetConceptById")]
-        public ActionResult<ConceptDTO> GetById(int id)
+        public ActionResult<Concept> GetById(int id)
         {
 
-            var concept = _mapper.Map<Concept, ConceptDTO>(_service.GetConceptById(id));
-            return concept;
+            //var concept = _mapper.Map<Concept, ConceptDTO>(_service.GetConceptById(id));
+            return _service.GetConceptById(id);
         }
 
         /*
