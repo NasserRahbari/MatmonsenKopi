@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using ConceptsMicroservice.Models;
+using ConceptsMicroservice.Models.DTO;
 using ConceptsMicroservice.Services;
 
 namespace ConceptsMicroservice.Controllers
@@ -15,21 +15,13 @@ namespace ConceptsMicroservice.Controllers
             _service = service;
         }
 
-
         [HttpGet]
-        public ActionResult<List<MetaData>> GetMetadata()
+        public ActionResult<List<MetaDataDTO>> GetMetadata([FromQuery] string key, [FromQuery] string value)
         {
-            var result = _service.GetMetadataItems();
-            return result;
-        }
-
-        [HttpGet]
-        [Route("autocomplete")]
-        public ActionResult<List<MetaData>> GetMetaForAutocomplete([FromQuery] string category, [FromQuery] string term)
-        {
-            // Spør etter feks ?category=nn&term=ny
+            // Spør etter feks ?key=language&value=nn
             // Vil da finne alle metadata som er av category language og contains "ny"
-            return _service.SearchForMetadataInCategory(category, term);
+            // TODO add contains
+            return _service.SearchForMetadataInCategory(key, value);
         }
     }
 }

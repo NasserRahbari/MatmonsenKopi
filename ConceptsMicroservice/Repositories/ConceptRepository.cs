@@ -52,11 +52,10 @@ namespace ConceptsMicroservice.Repositories
                 argIndex++;
             }
 
-            var q = $"SELECT * FROM {Concept.TABLE_NAME}";
-            //.FromSql($"SELECT dbo.GetMostPopularBlogsForUser {builder}", args)
+            
             return _context.Concepts
                 .Include(x => x.Metadata)
-                .FromSql(q)
+                //.FromSql("SELECT * FROM concepts WHERE title LIKE %@title%", new Npgsql.NpgsqlParameter("title", "Mask"))
                 .ToList();
         }
 

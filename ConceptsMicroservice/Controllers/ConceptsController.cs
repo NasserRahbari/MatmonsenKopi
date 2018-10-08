@@ -21,13 +21,13 @@ namespace ConceptsMicroservice.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<Concept>> SearchForConcepts([FromQuery]Dictionary<string, string> query = null)
+        public ActionResult<List<ConceptDTO>> SearchForConcepts([FromQuery]Dictionary<string, string> query = null)
         {
             return _service.SearchForConcepts(query);
         }
 
         [HttpGet("{id}", Name = "GetConceptById")]
-        public ActionResult<Concept> GetById(int id)
+        public ActionResult<ConceptDTO> GetById(int id)
         {
             return _service.GetConceptById(id);
         }

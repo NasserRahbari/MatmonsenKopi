@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Web;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Repositories;
 
@@ -11,20 +8,22 @@ namespace ConceptsMicroservice.Services
     public class ConceptService : IConceptService
     {
         private readonly IConceptRepository _conceptRepository;
+        private readonly IMapper _mapper;
 
-        public ConceptService(IConceptRepository repo)
+        public ConceptService(IConceptRepository repo, IMapper mapper)
         {
             _conceptRepository = repo;
+            _mapper = mapper;
         }
 
-        public List<Concept> SearchForConcepts(Dictionary<string, string> searchFields)
+        public List<ConceptDTO> SearchForConcepts(Dictionary<string, string> searchFields)
         {
-            return _conceptRepository.SearchForConcepts(searchFields);
+            return _mapper.Map<List<ConceptDTO>>(_conceptRepository.SearchForConcepts(searchFields));
         }
 
-        public Concept GetConceptById(int id)
+        public ConceptDTO GetConceptById(int id)
         {
-            return _conceptRepository.GetById(id);
+            return _mapper.Map<ConceptDTO>(_conceptRepository.GetById(id));
         }
     }
 }

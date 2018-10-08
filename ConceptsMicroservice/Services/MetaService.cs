@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using ConceptsMicroservice.Models;
+using AutoMapper;
+using ConceptsMicroservice.Models.DTO;
 using ConceptsMicroservice.Repositories;
 
 namespace ConceptsMicroservice.Services
@@ -7,20 +8,21 @@ namespace ConceptsMicroservice.Services
     public class MetadataService : IMetadataService
     {
         private readonly IMetadataRepository _metadataRepository;
-
-        public MetadataService(IMetadataRepository metadataRepository)
+        private readonly IMapper _mapper;
+        public MetadataService(IMetadataRepository metadataRepository, IMapper mapper)
         {
             _metadataRepository = metadataRepository;
+            _mapper = mapper;
         }
 
-        public List<MetaData> GetMetadataItems()
+        public List<MetaDataDTO> GetMetadataItems()
         {
-            return _metadataRepository.GetAll();
+            return _mapper.Map<List<MetaDataDTO>>(_metadataRepository.GetAll());
         }
 
-        public List<MetaData> SearchForMetadataInCategory(string key, string value)
+        public List<MetaDataDTO> SearchForMetadataInCategory(string key, string value)
         {
-            return _metadataRepository.SearchForMetadataByMetaKeyAndValue(key, value);
+            return _mapper.Map<List<MetaDataDTO>>(_metadataRepository.SearchForMetadataByMetaKeyAndValue(key, value));
         }
     }
 }
