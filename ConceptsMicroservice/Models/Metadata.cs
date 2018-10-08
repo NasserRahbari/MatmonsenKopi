@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConceptsMicroservice.Models
 {
-    public class Metadata
+    [Table("concept_metas", Schema = "public")]
+    public class MetaData
     {
+        public static readonly string TABLE_NAME = "concept_metas";
+        [Key]
         public int Id { get; set; }
-        public string Code { get; set; }
-        public string Description { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
-        public ICollection<ConceptMeta> Concepts { get; set; }
+        [Column(TypeName = "jsonb")]
+        public string  Data { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

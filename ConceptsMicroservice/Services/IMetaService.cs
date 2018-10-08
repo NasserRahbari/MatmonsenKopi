@@ -5,7 +5,7 @@ namespace ConceptsMicroservice.Services
 {
     public interface IMetadataService
     {
-        List<Metadata> GetMetadataItems();
-        List<Metadata> SearchForMetadataInCategory(string category, string term);
+        List<MetaData> GetMetadataItems();
+        List<MetaData> SearchForMetadataInCategory(string category, string term);
     }
 }

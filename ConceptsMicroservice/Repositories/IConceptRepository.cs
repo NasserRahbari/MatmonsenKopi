@@ -5,7 +5,7 @@ namespace ConceptsMicroservice.Repositories
 {
     public interface IConceptRepository
     {
-        List<Concept> SearchForConcepts(ConceptSearchFields searchparams);
+        List<Concept> SearchForConcepts(Dictionary<string, string> searchparams);
         Concept GetById(int id);
     }
 }

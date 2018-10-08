@@ -13,14 +13,14 @@ namespace ConceptsMicroservice.Services
             _metadataRepository = metadataRepository;
         }
 
-        public List<Metadata> GetMetadataItems()
+        public List<MetaData> GetMetadataItems()
         {
             return _metadataRepository.GetAll();
         }
 
-        public List<Metadata> SearchForMetadataInCategory(string category, string term)
+        public List<MetaData> SearchForMetadataInCategory(string key, string value)
         {
-            return _metadataRepository.SearchForMetadataInCategory(category, term);
+            return _metadataRepository.SearchForMetadataByMetaKeyAndValue(key, value);
         }
     }
 }

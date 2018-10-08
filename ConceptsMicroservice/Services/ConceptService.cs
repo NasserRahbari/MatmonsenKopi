@@ -17,7 +17,7 @@ namespace ConceptsMicroservice.Services
             _conceptRepository = repo;
         }
 
-        public List<Concept> SearchForConcepts(ConceptSearchFields searchFields)
+        public List<Concept> SearchForConcepts(Dictionary<string, string> searchFields)
         {
             return _conceptRepository.SearchForConcepts(searchFields);
         }

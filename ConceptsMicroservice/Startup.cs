@@ -113,7 +113,7 @@ namespace ConceptsMicroservice
         public void AddDependencies(IServiceCollection services)
         {
             services.AddScoped<IConceptService, ConceptService>();
-            services.AddScoped<IConceptRepository, ConceptRepositoryFromFileDatabase>();
+            services.AddScoped<IConceptRepository, ConceptRepository>();
             services.AddScoped<IMetadataService, MetadataService>();
             services.AddScoped<IMetadataRepository, MetadataRepository>();
             services.AddScoped<IFileDB, FileDB>();

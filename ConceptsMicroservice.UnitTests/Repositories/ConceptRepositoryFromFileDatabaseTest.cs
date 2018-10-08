@@ -20,7 +20,7 @@ namespace ConceptsMicroservice.UnitTests.Repositories
         public ConceptRepositoryFromFileDatabaseTest()
         {
             _db = A.Fake<IFileDB>();
-            _repository = new ConceptRepositoryFromFileDatabase(conceptsContext); // _db);
+            _repository = new ConceptRepository(conceptsContext); // _db);
             _conceptsInDatabase = new List<Concept>
             {
                 new Concept{Title = "TestTitle"},

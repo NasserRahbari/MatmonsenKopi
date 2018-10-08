@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using ConceptsMicroservice.Models;
-using ConceptsMicroservice.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConceptsMicroservice.Repositories
 {
-    public class ConceptRepositoryFromFileDatabase : IConceptRepository
+    public class ConceptRepository : IConceptRepository
     {
-        //private readonly IFileDB _fileDB;
         private readonly ConceptsContext _context;
-        public ConceptRepositoryFromFileDatabase(ConceptsContext context) //IFileDB db)
+        public ConceptRepository(ConceptsContext context)
         {
-            //_fileDB = db;
             _context = context;
         }
 
-        public List<Concept> SearchForConcepts(ConceptSearchFields searchFields)
-        {
+        public List<Concept> SearchForConcepts(Dictionary<string, string> searchFields)
+        {/*
             string metaIn = CreateIN_String(searchFields);
             string whenMetaExits = "";
             if (!String.IsNullOrEmpty(metaIn))
@@ -41,19 +40,34 @@ namespace ConceptsMicroservice.Repositories
                 .FromSql(sqlQuery).ToList();
   
             return concepts;
+            */
+            var builder = new StringBuilder();
+            var args = new object[searchFields.Count];
+            var argIndex = 0;
+       
+            foreach (var key in searchFields.Keys)
+            {
+                builder.Append($" @{key}");
+                args[argIndex] = searchFields[key];
+                argIndex++;
+            }
+
+            var q = $"SELECT * FROM {Concept.TABLE_NAME}";
+            //.FromSql($"SELECT dbo.GetMostPopularBlogsForUser {builder}", args)
+            return _context.Concepts
+                .Include(x => x.Metadata)
+                .FromSql(q)
+                .ToList();
         }
 
         public Concept GetById(int id)
         {
-            var concept  = _context.Concepts
+            return _context.Concepts
                 .Include(x => x.Metadata)
                 .FirstOrDefault(x => x.Id == id);
-
-
-            return concept;
         }
-
-        private string CreateIN_String(ConceptSearchFields searchFields)
+        /*
+        private string CreateIN_String(Dictionary<string, string> searchFields)
         {
             string result;
             if (string.IsNullOrEmpty(searchFields.Language) && string.IsNullOrEmpty(searchFields.Subject))
@@ -67,6 +81,6 @@ namespace ConceptsMicroservice.Repositories
             }
 
             return result;
-        }
+        }*/
     }
 }
