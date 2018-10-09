@@ -1,22 +1,26 @@
 
+    DROP TABLE IF EXISTS public."concepts";
+    DROP TABLE IF EXISTS public."concept_metas";
+    
+
     CREATE TABLE public."concept_metas"
     (
-        "Data" jsonb,
-        "Id" serial primary key,
-        "Created" timestamp NOT NULL,
-        "Modified" timestamp NOT NULL
+        "data" jsonb,
+        "id" serial primary key,
+        "created" timestamp NOT NULL,
+        "modified" timestamp NOT NULL
     );
     
 
     CREATE TABLE public."concepts"
     (
-        "Id" serial primary key,
-        "MetadataId" INTEGER  REFERENCES public."concept_metas"("Id"),
-        "Created" timestamp NOT NULL ,
-        "Modified" timestamp NOT NULL,
-        "Title" varchar NOT NULL,
-        "Content" text NOT NULL,
-        "ExternalId" INTEGER NOT NULL,
-        "Author" varchar NOT NULL
+        "id" serial primary key,
+        "metadataId" INTEGER  REFERENCES public."concept_metas"("id"),
+        "created" timestamp NOT NULL ,
+        "modified" timestamp NOT NULL,
+        "title" varchar NOT NULL,
+        "content" text NOT NULL,
+        "externalId" INTEGER NOT NULL,
+        "author" varchar NOT NULL
     );
     
