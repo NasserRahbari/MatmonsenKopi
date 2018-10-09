@@ -65,21 +65,16 @@ namespace ConceptsMicroservice.Repositories
                 .Include(x => x.Metadata)
                 .FirstOrDefault(x => x.Id == id);
         }
-        /*
-        private string CreateIN_String(Dictionary<string, string> searchFields)
+        public Concept Update(Concept updated)
         {
-            string result;
-            if (string.IsNullOrEmpty(searchFields.Language) && string.IsNullOrEmpty(searchFields.Subject))
-            {
-                result = "";
-            }
-            else
-            {
-                result = " ('" + searchFields.Language + "', '" + searchFields.Subject +
-                         "')";
-            }
 
-            return result;
-        }*/
+                // Skal bare kunne oppdatere concept?
+                // Skla alle ha en meta? Selv om den er tom?
+                // Skla ikke lage ny meta til concept?
+           var concept = _context.Concepts
+                .Update(updated);
+
+            return concept.Entity;
+        }
     }
 }

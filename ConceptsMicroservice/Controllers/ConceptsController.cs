@@ -21,16 +21,27 @@ namespace ConceptsMicroservice.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<ConceptDTO>> SearchForConcepts([FromQuery]Dictionary<string, string> query = null)
+        public ActionResult<List<Concept>> SearchForConcepts([FromQuery]Dictionary<string, string> query = null)
         {
             return _service.SearchForConcepts(query);
         }
 
         [HttpGet("{id}", Name = "GetConceptById")]
-        public ActionResult<ConceptDTO> GetById(int id)
+        public ActionResult<Concept> GetById(int id)
         {
             return _service.GetConceptById(id);
         }
-        
+
+        [HttpPut]
+        public ActionResult<Concept> UpdateConcept(Concept c)
+        {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            if (_service.UpdateConcept(c) != null)
+                return NoContent();
+
+            return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError);
+        }
     }
 }

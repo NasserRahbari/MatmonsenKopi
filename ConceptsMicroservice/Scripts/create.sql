@@ -5,22 +5,23 @@
 
     CREATE TABLE public."concept_metas"
     (
-        "data" jsonb,
-        "id" serial primary key,
-        "created" timestamp NOT NULL,
-        "modified" timestamp NOT NULL
+        "data" JSONB,
+        "id" SERIAL PRIMARY KEY,
+        "isActive" BOOLEAN NOT NULL,
+        "created" TIMESTAMP NOT NULL,
+        "modified" TIMESTAMP NOT NULL
     );
     
 
     CREATE TABLE public."concepts"
     (
-        "id" serial primary key,
+        "id" SERIAL PRIMARY KEY,
         "metadataId" INTEGER  REFERENCES public."concept_metas"("id"),
-        "created" timestamp NOT NULL ,
-        "modified" timestamp NOT NULL,
-        "title" varchar NOT NULL,
-        "content" text NOT NULL,
+        "created" TIMESTAMP NOT NULL ,
+        "modified" TIMESTAMP NOT NULL,
+        "title" VARCHAR NOT NULL,
+        "content" TEXT NOT NULL,
         "externalId" INTEGER NOT NULL,
-        "author" varchar NOT NULL
+        "author" VARCHAR NOT NULL
     );
     

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using ConceptsMicroservice.Models.DTO;
+using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Repositories;
 
 namespace ConceptsMicroservice.Services
@@ -15,14 +15,14 @@ namespace ConceptsMicroservice.Services
             _mapper = mapper;
         }
 
-        public List<MetaDataDTO> GetMetadataItems()
+        public List<MetaData> GetMetadataItems()
         {
-            return _mapper.Map<List<MetaDataDTO>>(_metadataRepository.GetAll());
+            return _mapper.Map<List<MetaData>>(_metadataRepository.GetAll());
         }
 
-        public List<MetaDataDTO> SearchForMetadataInCategory(string key, string value)
+        public List<MetaData> SearchForMetadataInCategory(string key, string value)
         {
-            return _mapper.Map<List<MetaDataDTO>>(_metadataRepository.SearchForMetadataByMetaKeyAndValue(key, value));
+            return _mapper.Map<List<MetaData>>(_metadataRepository.SearchForMetadataByMetaKeyAndValue(key, value));
         }
     }
 }

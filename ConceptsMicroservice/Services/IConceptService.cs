@@ -5,7 +5,8 @@ namespace ConceptsMicroservice.Services
 {
     public interface IConceptService
     {
-        List<ConceptDTO> SearchForConcepts(Dictionary<string, string> searchFields);
-        ConceptDTO GetConceptById(int id);
+        List<Concept> SearchForConcepts(Dictionary<string, string> searchFields);
+        Concept GetConceptById(int id);
+        Concept UpdateConcept(Concept c);
     }
 }

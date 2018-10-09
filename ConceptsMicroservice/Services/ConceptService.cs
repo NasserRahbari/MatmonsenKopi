@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AutoMapper;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Repositories;
 
@@ -8,22 +7,33 @@ namespace ConceptsMicroservice.Services
     public class ConceptService : IConceptService
     {
         private readonly IConceptRepository _conceptRepository;
-        private readonly IMapper _mapper;
+        private readonly IMetadataRepository _metadataRepository;
 
-        public ConceptService(IConceptRepository repo, IMapper mapper)
+        public ConceptService(IConceptRepository concept, IMetadataRepository meta)
         {
-            _conceptRepository = repo;
-            _mapper = mapper;
+            _conceptRepository = concept;
+            _metadataRepository = meta;
         }
 
-        public List<ConceptDTO> SearchForConcepts(Dictionary<string, string> searchFields)
+        public List<Concept> SearchForConcepts(Dictionary<string, string> searchFields)
         {
-            return _mapper.Map<List<ConceptDTO>>(_conceptRepository.SearchForConcepts(searchFields));
+            return _conceptRepository.SearchForConcepts(searchFields);
         }
 
-        public ConceptDTO GetConceptById(int id)
+        public Concept GetConceptById(int id)
         {
-            return _mapper.Map<ConceptDTO>(_conceptRepository.GetById(id));
+            return _conceptRepository.GetById(id);
+        }
+
+        public Concept UpdateConcept(Concept c)
+        {
+            if (c.Metadata == null)
+            {
+               // _metadataRepository.DeactivateMetadata(c.MetadataId);
+              //  c.MetadataId = -1;
+            }
+
+            return _conceptRepository.Update(c);
         }
     }
 }

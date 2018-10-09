@@ -50,5 +50,17 @@ namespace ConceptsMicroservice.Repositories
             
             return new List<MetaData>();
         }
+
+        public bool DeactivateMetadata(int id)
+        {
+            var meta = _context.MetaData.FirstOrDefault(x => x.Id == id);
+            if (meta == null)
+                return true;
+
+            meta.IsActive = false;
+            _context.MetaData.Update(meta);
+
+            return _context.SaveChanges() == 1;
+        }
     }
 }
