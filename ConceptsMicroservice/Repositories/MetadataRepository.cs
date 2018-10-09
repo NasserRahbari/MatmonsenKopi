@@ -27,7 +27,8 @@ namespace ConceptsMicroservice.Repositories
             // We want all metadata when key and value is null or empty
             if (string.IsNullOrWhiteSpace(key) && string.IsNullOrWhiteSpace(value))
             {
-                return _context.MetaData.ToList();
+                 return _context.MetaData
+                     .ToList();
             }
             // We only want metadata which has a attribute on root level
             // TODO make dynamic by specifying levels...
