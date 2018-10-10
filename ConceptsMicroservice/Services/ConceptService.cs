@@ -37,6 +37,13 @@ namespace ConceptsMicroservice.Services
             var viewModel = new ConceptViewModel();
             var oldConceptVersion = GetConceptById(newConceptVersion.Id);
 
+            // Concept does ont exist
+            if (oldConceptVersion == null)
+            {
+                viewModel.Errors.Add("Concept", "Unable to update. Concept does not exists.");
+                return viewModel;
+            }
+
             if (newConceptVersion.Metadata != null)
             {
                 // Meta-object id is different from oldConcept-version's meta-object id.
@@ -50,10 +57,20 @@ namespace ConceptsMicroservice.Services
             {
                 // Don't delete Metadata. Only set it to notActive
                 if (oldConceptVersion.Metadata != null)
-                    newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
+                {
+                    try
+                    {
+                        newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
+                    }
+                    catch (System.InvalidOperationException e)
+                    {
+                        viewModel.Exceptions.Add("DatabaseError", e);
+                        return viewModel;
+                    }
+                }
             }
 
-            // Created should be readonly
+            // Readonly fields
             newConceptVersion.Created = oldConceptVersion.Created;
             newConceptVersion.ExternalId = oldConceptVersion.ExternalId;
             
