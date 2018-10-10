@@ -32,16 +32,19 @@ namespace ConceptsMicroservice.Controllers
         [HttpPut]
         public ActionResult<Concept> UpdateConcept(Concept c)
         {
+            if (c == null)
+                ModelState.TryAddModelError("Concept", "Can not be null.");
+
             if (!ModelState.IsValid)
-                return ValidationProblem(ModelState);
+                return BadRequest(ModelState);
 
             var viewModel = _service.UpdateConcept(c);
-            if (viewModel.IsValid())
-                return NoContent();
+            if (viewModel != null && viewModel.IsValid())
+                return Ok(viewModel.Concept);
 
             ModelState.AddModelError(viewModel.Errors);
             ModelState.AddModelExceptionError(viewModel.Exceptions);
-            return ValidationProblem(ModelState);
+            return BadRequest(ModelState);
         }
     }
 }

@@ -147,20 +147,39 @@ namespace ConceptsMicroservice.UnitTests.Services.ConceptService
         {
             var now = DateTime.Now;
             _newConcept.Metadata.Modified = now;
-
             A.CallTo(() => ConceptRepository.Update(_newConcept)).Returns(_newConcept);
 
             var viewModel = Service.UpdateConcept(_newConcept);
-
             Assert.Equal(viewModel.Concept.Metadata.Modified, now);
         }
 
         [Fact]
-        public void Update_Returns_Error_When_Repo_Throws_Exception()
+        public void Update_Returns_Error_When_ConceptRepo_Throws_Exception()
         {
             A.CallTo(() => ConceptRepository.Update(A<Concept>._)).Throws<InvalidOperationException>();
-            var viewModel = Service.UpdateConcept(A.Fake<Concept>());
+
+            var viewModel = Service.UpdateConcept(_newConcept);
             Assert.NotEmpty(viewModel.Exceptions);
+        }
+
+        [Fact]
+        public void Update_Returns_Error_When_MetaRepo_Throws_Exception()
+        {
+            _newConcept.Metadata = null;
+            A.CallTo(() => MetaRepository.DeactivateMetadata(_oldConcept.Metadata.Id)).Throws<InvalidOperationException>();
+            var viewModel = Service.UpdateConcept(_newConcept);
+            Assert.NotEmpty(viewModel.Exceptions);
+        }
+
+        [Fact]
+        public void Update_Creates_Meta_If_Not_Exist_And_UpdateConcept_Has_Meta()
+        {
+            A.CallTo(() => ConceptRepository.Update(_newConcept)).Returns(new Concept{Metadata = new MetaData()});
+            _oldConcept.Metadata = null;
+
+            var viewModel = Service.UpdateConcept(_newConcept);
+            Assert.NotNull(viewModel.Concept);
+            Assert.NotNull(viewModel.Concept.Metadata);
         }
     }
 }

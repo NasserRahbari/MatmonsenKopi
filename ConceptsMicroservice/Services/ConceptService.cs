@@ -37,36 +37,36 @@ namespace ConceptsMicroservice.Services
             var viewModel = new ConceptViewModel();
             var oldConceptVersion = GetConceptById(newConceptVersion.Id);
 
-            // Concept does ont exist
+            // Concept does not exist in the database, so cannot update it.
             if (oldConceptVersion == null)
             {
-                viewModel.Errors.Add("Concept", "Unable to update. Concept does not exists.");
+                viewModel.Errors.Add("Concept", "Object does not exists.");
                 return viewModel;
             }
 
-            if (newConceptVersion.Metadata != null)
+            var newConceptHasMetadata = newConceptVersion.Metadata != null;
+            var oldConceptHasMetadata = oldConceptVersion.Metadata != null;
+
+            // Meta-object id is different from oldConcept-version's meta-object id.
+            if (newConceptHasMetadata 
+                && oldConceptHasMetadata 
+                && newConceptVersion.Metadata.Id != oldConceptVersion.Metadata.Id)
             {
-                // Meta-object id is different from oldConcept-version's meta-object id.
-                if (oldConceptVersion.Metadata != null && newConceptVersion.Metadata.Id != oldConceptVersion.Metadata.Id)
-                {
-                    viewModel.Errors.Add("Metadata", "Cannot assign different metadata object. Metadata must have original Id");
-                    return viewModel;
-                }
+                viewModel.Errors.Add("Metadata", "Cannot assign different metadata object. Metadata must have original Id");
+                return viewModel;
             }
-            else
+
+            // Don't delete Metadata. Only set it to notActive
+            if (!newConceptHasMetadata && oldConceptHasMetadata)
             {
-                // Don't delete Metadata. Only set it to notActive
-                if (oldConceptVersion.Metadata != null)
+                try
                 {
-                    try
-                    {
-                        newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
-                    }
-                    catch (System.InvalidOperationException e)
-                    {
-                        viewModel.Exceptions.Add("DatabaseError", e);
-                        return viewModel;
-                    }
+                    newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
+                }
+                catch (System.InvalidOperationException e)
+                {
+                    viewModel.Exceptions.Add("UpdateMeta", e);
+                    return viewModel;
                 }
             }
 
@@ -80,7 +80,7 @@ namespace ConceptsMicroservice.Services
             }
             catch (System.InvalidOperationException e)
             {
-                viewModel.Exceptions.Add("DatabaseError", e);
+                viewModel.Exceptions.Add("UpdateConcept", e);
             }
             
             return viewModel;
