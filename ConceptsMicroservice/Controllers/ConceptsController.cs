@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using AutoMapper;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Services;
 using ConceptsMicroservice.Extensions;
@@ -11,13 +10,11 @@ namespace ConceptsMicroservice.Controllers
     [ApiController]
     public class ConceptController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IConceptService _service;
 
-        public ConceptController(IConceptService service, IMapper mapper)
+        public ConceptController(IConceptService service)
         {
             _service = service;
-            _mapper = mapper;
         }
         
         [HttpGet]

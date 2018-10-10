@@ -9,9 +9,7 @@ using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 using ConceptsMicroservice.Repositories;
 using ConceptsMicroservice.Services;
-using ConceptsMicroservice.Utilities;
 using System;
-using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -39,7 +37,6 @@ namespace ConceptsMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             AddDependencies(services);
-            services.AddAutoMapper();
             services
                 .AddEntityFrameworkNpgsql()
                 .AddDbContext<ConceptsContext>(opt => opt.UseNpgsql(GetDatabaseConncetion()));
@@ -116,7 +113,6 @@ namespace ConceptsMicroservice
             services.AddScoped<IConceptRepository, ConceptRepository>();
             services.AddScoped<IMetadataService, MetadataService>();
             services.AddScoped<IMetadataRepository, MetadataRepository>();
-            services.AddScoped<IFileDB, FileDB>();
         }
     }
 }

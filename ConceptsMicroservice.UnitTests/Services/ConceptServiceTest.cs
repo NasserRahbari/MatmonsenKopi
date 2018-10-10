@@ -11,68 +11,55 @@ namespace ConceptsMicroservice.UnitTests.Services
     {
 
         private readonly IConceptService _service;
-        private ConceptSearchFields _noSearchFields;
         private readonly IConceptRepository _conceptRepository;
+        private readonly IMetadataRepository _metaRepository;
         private readonly List<Concept> _conceptsInDatabase;
 
         public ConceptServiceTest()
         {
+            _metaRepository = A.Fake<IMetadataRepository>();
             _conceptRepository = A.Fake<IConceptRepository>();
-            _service = new ConceptService(_conceptRepository);
-            _noSearchFields = new ConceptSearchFields();
-            _conceptsInDatabase = new List<Concept>
-            {
-                new Concept{Title = "TestTitle"},
-                new Concept{Title = "Another test"},
-            };
+            _service = new ConceptService(_conceptRepository, _metaRepository);
         }
 
-        #region Searchfields
+        #region Search
 
         [Fact]
-        public void SearchForConcepts_Returns_All_Concepts_When_No_SearchFields_Is_Specified()
+        public void SearchForConcepts_Returns_All_Concepts_Dict_Is_Empty()
         {
-            A.CallTo(() => _conceptRepository.SearchForConcepts(_noSearchFields))
-                .Returns(_conceptsInDatabase);
-
-            var conceptsFromService = _service.SearchForConcepts(_noSearchFields);
-            Assert.Equal(conceptsFromService.Count, _conceptsInDatabase.Count);
+            Assert.True(false, "Not implemented");
+        }
+        [Fact]
+        public void SearchForConcepts_Returns_Only_Concepts_With_Specific_Meta()
+        {
+            Assert.True(false, "Not implemented");
         }
 
         [Fact]
-        public void SearchForConcepts_Returns_All_Concepts_When_SearchFields_Is_null()
+        public void SearchForConcepts_Returns_Empty_List_When_No_Concepts_Exists_With_Specified_Meta()
         {
-            _noSearchFields = null;
-            A.CallTo(() => _conceptRepository.SearchForConcepts(_noSearchFields))
-                .Returns(_conceptsInDatabase);
-
-
-            var conceptsFromService = _service.SearchForConcepts(_noSearchFields);
-            Assert.Equal(conceptsFromService.Count, _conceptsInDatabase.Count);
+            Assert.True(false, "Not implemented");
         }
 
         [Fact]
-        public void SearchForConcepts_Returns_Empty_List_When_No_Concepts_Could_Be_Found_With_SearchFields()
+        public void SearchForConcepts_Returns_Empty_List_If_No_Concepts_Exists()
         {
-            A.CallTo(() => _conceptRepository.SearchForConcepts(new ConceptSearchFields { Title = "Not exists" }))
-                .Returns(default(List<Concept>));
-
-            var searchResults = _service.SearchForConcepts(_noSearchFields);
-            Assert.Empty(searchResults);
+            Assert.True(false, "Not implemented");
         }
-        
+
 
         #endregion
+        
 
         #region No concepts exists in database
 
         [Fact]
         public void SearchForConcepts_Returns_Empty_List_When_No_Concepts_exists()
         {
-            A.CallTo(() => _conceptRepository.SearchForConcepts(A.Fake<ConceptSearchFields>()))
+            A.CallTo(() => _conceptRepository.SearchForConcepts(A.Fake<Dictionary<string, string>>()))
                 .Returns(default(List<Concept>));
 
-            var searchResults = _service.SearchForConcepts(_noSearchFields);
+            var searchResults = _service.SearchForConcepts(new Dictionary<string, string>());
             Assert.Empty(searchResults);
         }
 
