@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Services;
-
+using ConceptsMicroservice.Extensions;
 
 namespace ConceptsMicroservice.Controllers
 {
@@ -38,10 +38,13 @@ namespace ConceptsMicroservice.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            if (_service.UpdateConcept(c) != null)
+            var viewModel = _service.UpdateConcept(c);
+            if (viewModel.IsValid())
                 return NoContent();
 
-            return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError);
+            ModelState.AddModelError(viewModel.Errors);
+            ModelState.AddModelExceptionError(viewModel.Exceptions);
+            return ValidationProblem(ModelState);
         }
     }
 }

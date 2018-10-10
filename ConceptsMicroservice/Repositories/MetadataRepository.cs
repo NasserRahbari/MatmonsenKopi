@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using ConceptsMicroservice.Models;
@@ -11,11 +12,9 @@ namespace ConceptsMicroservice.Repositories
     public class MetadataRepository : IMetadataRepository
     {
         private readonly ConceptsContext _context;
-        private readonly string _metaTableName;
         public MetadataRepository(ConceptsContext context)
         {
             _context = context;
-            _metaTableName = MetaData.TABLE_NAME;
         }
         public List<MetaData> GetAll()
         {
@@ -51,16 +50,15 @@ namespace ConceptsMicroservice.Repositories
             return new List<MetaData>();
         }
 
-        public bool DeactivateMetadata(int id)
+        public MetaData DeactivateMetadata(int id)
         {
             var meta = _context.MetaData.FirstOrDefault(x => x.Id == id);
             if (meta == null)
-                return true;
+                return null;
 
             meta.IsActive = false;
-            _context.MetaData.Update(meta);
-
-            return _context.SaveChanges() == 1;
+            meta.Modified = DateTime.Now;
+            return _context.MetaData.Update(meta).Entity;
         }
     }
 }

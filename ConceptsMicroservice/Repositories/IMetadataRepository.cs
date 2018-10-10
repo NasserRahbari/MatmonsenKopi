@@ -7,6 +7,6 @@ namespace ConceptsMicroservice.Repositories
     {
         List<MetaData> GetAll();
         List<MetaData> SearchForMetadataByMetaKeyAndValue(string key, string value);
-        bool DeactivateMetadata(int id);
+        MetaData DeactivateMetadata(int id);
     }
 }

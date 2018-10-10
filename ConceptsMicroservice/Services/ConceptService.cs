@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Repositories;
+using ConceptsMicroservice.ViewModels;
 
 namespace ConceptsMicroservice.Services
 {
@@ -25,15 +26,47 @@ namespace ConceptsMicroservice.Services
             return _conceptRepository.GetById(id);
         }
 
-        public Concept UpdateConcept(Concept c)
+        /// <summary>
+        /// Updates a concept.
+        /// Will not delete metadata for concept, only set it to not active.
+        /// </summary>
+        /// <param name="newConceptVersion"></param>
+        /// <returns>Viewmodel of the concept if success, or viewModel with errors and exceptions</returns>
+        public ConceptViewModel UpdateConcept(Concept newConceptVersion)
         {
-            if (c.Metadata == null)
+            var viewModel = new ConceptViewModel();
+            var oldConceptVersion = GetConceptById(newConceptVersion.Id);
+
+            if (newConceptVersion.Metadata != null)
             {
-               // _metadataRepository.DeactivateMetadata(c.MetadataId);
-              //  c.MetadataId = -1;
+                // Meta-object id is different from oldConcept-version's meta-object id.
+                if (oldConceptVersion.Metadata != null && newConceptVersion.Metadata.Id != oldConceptVersion.Metadata.Id)
+                {
+                    viewModel.Errors.Add("Metadata", "Cannot assign different metadata object. Metadata must have original Id");
+                    return viewModel;
+                }
+            }
+            else
+            {
+                // Don't delete Metadata. Only set it to notActive
+                if (oldConceptVersion.Metadata != null)
+                    newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
             }
 
-            return _conceptRepository.Update(c);
+            // Created should be readonly
+            newConceptVersion.Created = oldConceptVersion.Created;
+            newConceptVersion.ExternalId = oldConceptVersion.ExternalId;
+            
+            try
+            {
+                viewModel.Concept = _conceptRepository.Update(newConceptVersion);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                viewModel.Exceptions.Add("DatabaseError", e);
+            }
+            
+            return viewModel;
         }
     }
 }

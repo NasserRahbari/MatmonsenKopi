@@ -63,17 +63,15 @@ namespace ConceptsMicroservice.Repositories
         {
             return _context.Concepts
                 .Include(x => x.Metadata)
+                .AsNoTracking()
                 .FirstOrDefault(x => x.Id == id);
         }
         public Concept Update(Concept updated)
         {
+           var concept = _context.Concepts.Update(updated);
+            concept.Entity.Modified = DateTime.Now;
 
-                // Skal bare kunne oppdatere concept?
-                // Skla alle ha en meta? Selv om den er tom?
-                // Skla ikke lage ny meta til concept?
-           var concept = _context.Concepts
-                .Update(updated);
-
+            _context.SaveChanges();
             return concept.Entity;
         }
     }

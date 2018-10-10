@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ConceptsMicroservice.Models;
+using ConceptsMicroservice.ViewModels;
 
 namespace ConceptsMicroservice.Services
 {
@@ -7,6 +8,6 @@ namespace ConceptsMicroservice.Services
     {
         List<Concept> SearchForConcepts(Dictionary<string, string> searchFields);
         Concept GetConceptById(int id);
-        Concept UpdateConcept(Concept c);
+        ConceptViewModel UpdateConcept(Concept newConceptVersion);
     }
 }
