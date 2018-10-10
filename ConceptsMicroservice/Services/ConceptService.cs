@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ConceptsMicroservice.Models;
 using ConceptsMicroservice.Repositories;
 using ConceptsMicroservice.ViewModels;
@@ -62,12 +63,19 @@ namespace ConceptsMicroservice.Services
                 try
                 {
                     newConceptVersion.Metadata = _metadataRepository.DeactivateMetadata(oldConceptVersion.Metadata.Id);
+                    newConceptVersion.Metadata.Modified = DateTime.Now;
                 }
                 catch (System.InvalidOperationException e)
                 {
                     viewModel.Exceptions.Add("UpdateMeta", e);
                     return viewModel;
                 }
+            }
+
+            // Checks if any data has changed
+            if (newConceptHasMetadata && newConceptVersion.Metadata.IsUpdated(oldConceptVersion.Metadata))
+            {
+                newConceptVersion.Metadata.Modified = DateTime.Now;
             }
 
             // Readonly fields

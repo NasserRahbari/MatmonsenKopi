@@ -50,7 +50,7 @@ namespace ConceptsMicroservice.UnitTests.Controllers
             var result = _controller.UpdateConcept(null);
             var badRequest = result.Result as BadRequestObjectResult;
 
-            Assert.Null(result.Value);
+            Assert.NotNull(badRequest.Value);
             Assert.Equal(400, badRequest.StatusCode);
         }
         [Fact]
@@ -60,7 +60,7 @@ namespace ConceptsMicroservice.UnitTests.Controllers
             var result = _controller.UpdateConcept(new Concept{Title = null});
             var badRequest = result.Result as BadRequestObjectResult;
 
-            Assert.Null(badRequest.Value);
+            Assert.NotNull(badRequest.Value);
             Assert.Equal(400, badRequest.StatusCode);
         }
 
@@ -85,7 +85,7 @@ namespace ConceptsMicroservice.UnitTests.Controllers
             var result = _controller.UpdateConcept(_concept);
             var badRequest = result.Result as BadRequestObjectResult;
 
-            Assert.Null(result.Value);
+            Assert.NotNull(badRequest.Value);
             Assert.Equal(400, badRequest.StatusCode);
         }
         [Fact]
@@ -97,7 +97,7 @@ namespace ConceptsMicroservice.UnitTests.Controllers
             var result = _controller.UpdateConcept(_concept);
             var badRequest = result.Result as BadRequestObjectResult;
 
-            Assert.Null(result.Value);
+            Assert.NotNull(badRequest.Value);
             Assert.Equal(400, badRequest.StatusCode);
         }
         #endregion

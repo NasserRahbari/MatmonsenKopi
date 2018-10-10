@@ -36,5 +36,16 @@ namespace ConceptsMicroservice.Models
             get => JsonConvert.DeserializeObject<Dictionary<string, object>>(Data ?? string.Empty);
             set => this.Data = JsonConvert.SerializeObject(value);
         }
+
+        public bool IsUpdated(MetaData other)
+        {
+            if (other == null)
+                return false;
+
+            var changedData = !string.IsNullOrEmpty(Data) && Data.Equals(other.Data);
+            var toggledActive = IsActive != other.IsActive;
+
+            return changedData || toggledActive;
+        }
     }
 }
